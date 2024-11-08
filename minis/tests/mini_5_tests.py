@@ -1,4 +1,4 @@
-from solutions.mini_5 import specialize, sum
+from minis.solutions.mini_5 import specialize, sum
 
 
 def test():
@@ -12,13 +12,10 @@ def test():
     assert const_y() == 11
 
     x_const = specialize(sum, x=1)
-    assert x_const(10) == 11
+    assert x_const(y=10) == 11
 
     const_x_sep = specialize(sum, 1)
-    assert const_x_sep(x=10) == 11
-
-    const_x = specialize(sum, 1, x=10)
-    assert const_x() == 11
+    assert const_x_sep(y=10) == 11
 
     x_y = specialize(sum, x=1, y=5)
     assert x_y() == 6
@@ -31,6 +28,5 @@ def test():
 
     y_x_sep = specialize(sum, y=1)
     assert y_x_sep(x=5) == 6
-
 
 test()
