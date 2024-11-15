@@ -1,6 +1,7 @@
 def flatten(arr, depth=float('inf')):
     """Flattens a list of lists."""
-    depth = abs(depth)
+    if depth < 0:
+        raise ValueError("depth must be greater than or equal to zero.")
     if depth == 0:
         return arr
     res = []
