@@ -5,6 +5,7 @@ def deprecated(func=None, since="", will_be_removed=""):
     if func is None:
         return functools.partial(deprecated, since=since, will_be_removed=will_be_removed)
 
+    @functools.wraps(func)
     def inner(*args, **kwargs):
         since_str = f" since version {since}" if since != "" else ""
         removed_str = f"version {will_be_removed}" if will_be_removed != "" else "future versions"
