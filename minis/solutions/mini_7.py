@@ -1,13 +1,13 @@
 import functools
 
 
-def deprecated(func=None, since="", will_be_removed=""):
+def deprecated(func=None, since=None, will_be_removed=None):
     if func is None:
         return functools.partial(deprecated, since=since, will_be_removed=will_be_removed)
 
     @functools.wraps(func)
     def inner(*args, **kwargs):
-        since_str = f" since version {since}" if since != "" else ""
+        since_str = f" since version {since}" if since else ""
         removed_str = f"version {will_be_removed}" if will_be_removed != "" else "future versions"
         print(f"Warning: function {func.__name__} is deprecated{since_str}. It will be removed in {removed_str}.")
         return func(*args, **kwargs)
