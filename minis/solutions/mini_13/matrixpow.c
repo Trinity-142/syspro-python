@@ -1,8 +1,9 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-void* pyobj_to_arr(PyObject* matrix, size_t size) {
+double* pyobj_to_arr(PyObject* matrix, size_t size) {
     double* res = calloc(size * size, sizeof(double));
+    assert(res && "Out of memory\n");
     for (size_t i = 0; i < size; i++) {
         PyObject* row = PyList_GetItem(matrix, i);
         for (size_t j = 0; j < size; j++) {
@@ -13,7 +14,7 @@ void* pyobj_to_arr(PyObject* matrix, size_t size) {
     return res;
 }
 
-void* arr_to_pyobj(double* matrix, size_t size){
+PyObject* arr_to_pyobj(double* matrix, size_t size){
     PyObject* res = PyList_New(size);
     for (size_t i = 0; i < size; i++) {
         PyObject* row = PyList_New(size);
@@ -26,8 +27,9 @@ void* arr_to_pyobj(double* matrix, size_t size){
     return res;
 }
 
-void* matrix_multiply(size_t n, double* A, double* B) {
+double* matrix_multiply(size_t n, double* A, double* B) {
     double* res = calloc(n * n, sizeof(double));
+    assert(res && "Out of memory\n");
     for (size_t i = 0; i < n; i++) {
         for (size_t j = 0; j < n; j++) {
             for (size_t k = 0; k < n; k++) {
@@ -48,6 +50,7 @@ static PyObject *matrix_pow(PyObject *self, PyObject *args)
 
     double* matrix = pyobj_to_arr(py_matrix, size);
     double* result = calloc(size * size, sizeof(double));
+    assert(result && "Out of memory\n");
     memcpy(result, matrix, size * size * sizeof(double));
     for (size_t i = 1; i < power; i++) {
         result = matrix_multiply(size, result, matrix);

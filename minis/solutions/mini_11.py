@@ -1,6 +1,10 @@
 def cycle(iterable):
-    while iterable:
-        for elem in iterable:
+    arr = []
+    for elem in iterable:
+        yield elem
+        arr.append(elem)
+    while arr:
+        for elem in arr:
             yield elem
 
 
@@ -18,3 +22,6 @@ def take(seq, n):
         except StopIteration:
             break
     return res
+
+if __name__ == '__main__':
+    print(take(cycle(chain([1, 2, 3], ["a", "b"])), 9))
