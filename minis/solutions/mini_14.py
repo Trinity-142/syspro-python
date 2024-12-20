@@ -1,9 +1,10 @@
+import time
 from random import randint
 import matplotlib.pyplot as plt
 import numpy as np
 
-SIZE = 1024
-ITER = 128
+SIZE = 512
+ITER = 8
 field = [[randint(0, 1) for x in range(SIZE)] for y in range(SIZE)]
 
 
@@ -42,7 +43,7 @@ a = [i.copy() for i in field]
 b = [[0] * SIZE for i in range(SIZE)]
 
 paint(a)
-
+start = time.time()
 for step in range(ITER):
     if step % 2 == 0:
         b = nextgen(a, b)
@@ -51,6 +52,8 @@ for step in range(ITER):
         a = nextgen(b, a)
         current = a
     paint(current)
+stop = time.time()
+print(f"Task was completed in {round(stop - start, 3)} seconds with Python lists")
 plt.pause(2)
 
 # -------------------
@@ -61,7 +64,7 @@ a_np = np.array(field)
 b_np = np.zeros((SIZE, SIZE))
 
 paint(a_np, "numpy")
-
+start = time.time()
 for step in range(ITER):
     if step % 2 == 0:
         b_np = nextgen(a_np, b_np)
@@ -70,6 +73,7 @@ for step in range(ITER):
         a_np = nextgen(b_np, a_np)
         current_np = a_np
     paint(current_np, "numpy")
-
+stop = time.time()
+print(f"Task was completed in {round(stop - start, 3)} seconds with NumPy arrays")
 assert(np.array_equal(current_np, current_np))
 plt.show()
